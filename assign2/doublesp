@@ -1,0 +1,66 @@
+#############################
+# EECS 2031 Assignment 2
+# Author: Jose Cardona
+# File Name: doublesp
+# Email: jmcardon@my.yorku.ca
+# Login ID: jmcardon
+################################
+#!/bin/sh
+echo -n "Enter input file name: "
+read fileName
+#Check if file is readable
+if test ! -f $fileName
+then
+	echo "File '$fileName' does not exist"
+	exit 0
+elif test ! -r $fileName
+then
+	echo "File '$fileName' is not readable"
+	exit 0
+fi
+
+echo -n "Enter output file name: "
+read outPFile
+
+
+fileAppend() {
+	count=1
+	lineNum=$(cat $fileName | wc -l)
+	while test $count -lt $lineNum
+	do
+		head -n $count $fileName | tail -1 >> $outPFile
+		count=`expr $count + 1`
+		head -n $count $fileName | tail -1 >> $outPFile
+		count=`expr $count + 1`
+		echo >> $outPFile
+	done
+	head -n $count $fileName | tail -1 >> $outPFile
+}
+
+
+
+
+
+
+
+
+
+
+if test -f $outPFile
+then
+	echo "File '$outPFile' exists."
+	echo -n "Append to it (y/n)? "
+	read switchOpt
+	if test $switchOpt = "y" || test $switchOpt = "Y"
+	then
+		if test ! -w $outPFile
+		then
+			echo "File '$outPFile' is not writeable"
+			exit 0
+		fi
+		fileAppend
+	fi
+else
+	fileAppend
+fi
+exit 1

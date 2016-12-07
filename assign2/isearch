@@ -1,0 +1,39 @@
+#############################
+# EECS 2031 Assignment 2
+# Author: Jose Cardona
+# File Name: isearch
+# Email: jmcardon@my.yorku.ca
+# Login ID: jmcardon
+################################
+#!/bin/sh
+echo -n "Enter the file name "
+read fileName
+if test ! -f $fileName 
+then
+	echo "File '$fileName' does not exist"
+	exit 0
+elif test ! -r $fileName
+then 
+	echo "File '$fileName' is not readable"
+	exit 0
+fi
+
+
+echo -n "Enter the word to search for: "
+read wordToSearch
+echo -n "Case sensitive (y/n)? "
+read caseSensitive
+if test $caseSensitive = "y" || test $caseSensitive = "Y"
+then
+	newWord=$(cat $fileName | grep $wordToSearch)
+else
+	newWord=$(cat $fileName | grep -i $wordToSearch)
+fi
+wordSize=${#newWord}
+if test $wordSize -gt 0
+then
+	echo "$newWord"
+else
+	echo "Word \`$wordToSearch\` not found."
+fi
+exit 1

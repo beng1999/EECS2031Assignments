@@ -1,0 +1,44 @@
+#############################
+# EECS 2031 Assignment 2
+# Author: Jose Cardona
+# File Name: fdisplay
+# Email: jmcardon@my.yorku.ca
+# Login ID: jmcardon
+################################
+#!/bin/sh
+echo -n "Enter the file name: "
+read fileName
+if test ! -f $fileName
+then
+	echo "File '$fileName' does not exist"
+	exit 0
+elif test ! -r $fileName
+then
+	echo "File '$fileName' is not readable"
+	exit 0
+fi
+
+echo -n "Enter option (e, p, f, l): "
+read wordOpt
+recursiveOpt(){
+	case "$wordOpt" in
+		"e" )
+			cat $fileName
+			;;
+		"p" )
+			pg $fileName
+			;;
+		"f" )
+			head -n 10 $fileName
+			;;
+		"l" )
+			tail -n 10 $filename
+			;;
+		*)
+			echo -n "Invalid Option"
+			read wordOpt
+			recursiveOpt
+	esac
+}
+recursiveOpt
+exit 1

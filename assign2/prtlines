@@ -1,0 +1,53 @@
+#############################
+# EECS 2031 Assignment 2
+# Author: Jose Cardona
+# File Name: prtlines
+# Email: jmcardon@my.yorku.ca
+# Login ID: jmcardon
+################################
+#!/bin/sh
+echo -n "Enter the file name: "
+read fileName
+if test ! -f $fileName
+then
+	echo "Invalid File Name"
+	exit 0
+fi
+numLines=$(cat $fileName | wc -l)
+echo "File '$fileName' has $numLines lines"
+#Exit Condition Variables
+exitFrom=0
+exitTo=0
+#loop while invalid Input
+while test $exitTo -eq 0  || test $exitFrom -eq 0
+do
+	if test $exitFrom -eq 0
+	then
+		echo -n "From line: "
+		read fromLine
+		if test $fromLine -gt $numLines || test $fromLine -lt 1
+		then
+			echo "Invalid Input"
+			continue
+		fi
+		exitFrom=1
+	fi
+	if test $exitTo -eq 0
+	then
+		echo -n "To line: "
+		read toLine
+		if test $toLine -lt $fromLine || test $toLine -gt $numLines
+		then
+			echo "Invalid Input"
+			continue
+		fi
+		exitTo=1
+	fi
+done
+while test $fromLine -lt $toLine
+do
+	echo "${fromLine}: $(head -n $fromLine "$fileName" | tail -1)"
+	fromLine=`expr $fromLine + 1`
+done
+echo "${fromLine}: $(head -n $fromLine "$fileName" | tail -1)"
+exit 1

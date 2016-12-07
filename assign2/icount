@@ -1,0 +1,56 @@
+#############################
+# EECS 2031 Assignment 2
+# Author: Jose Cardona
+# File Name: icount
+# Email: jmcardon@my.yorku.ca
+# Login ID: jmcardon
+################################
+#!/bin/sh
+echo -n "Enter the file name "
+read fileName
+if test ! -f $fileName
+then
+	echo "File '$fileName' does not exist"
+	exit 0
+elif test ! -r $fileName
+then
+	echo "File '$fileName' is not readable"
+	exit 0
+fi
+
+echo -n "Count lines, words, characters, or all three(l, m, c, a)? "
+read wordOpt
+preText="File $fileName contains"
+switchOpt=1
+while test $switchOpt -gt 0
+do
+	if test $wordOpt = "l"
+	then
+		switchOpt=0
+		lineNums=$(cat $fileName | wc -l)
+		echo "$preText $lineNums lines"
+	elif test $wordOpt = "m"
+	then
+		switchOpt=0
+		wordNums=$(cat $fileName | wc -w)
+		echo "$preText $wordNums words"
+	elif test $wordOpt = "c"
+	then
+		switchOpt=0
+		charNums=$(cat $fileName | wc -m)
+		echo "$preText $charNums characters"
+	elif test $wordOpt = "a"
+	then
+		switchOpt=0
+		charNums=$(cat $fileName | wc -m)
+		wordNums=$(cat $fileName | wc -w)
+		lineNums=$(cat $fileName | wc -l)
+		echo "$preText $lineNums lines, $wordNums words and $charNums characters."
+	else
+		echo -n "Invalid Option "
+		wordOpt=""
+		read wordOpt
+
+	fi
+done
+exit 1

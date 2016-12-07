@@ -1,0 +1,18 @@
+#############################
+# EECS 2031 Assignment 2
+# Author: Jose Cardona
+# File Name: allfiles
+# Email: jmcardon@my.yorku.ca
+# Login ID: jmcardon
+################################
+#!/bin/sh
+origList=$(ls)
+for val in $origList
+do
+	if test -f $val
+	then
+		echo -n "$val "
+	fi
+done
+echo
+exit 1
